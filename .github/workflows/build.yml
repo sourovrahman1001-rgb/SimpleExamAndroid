@@ -24,7 +24,13 @@ jobs:
           gradle-version: '8.9'
 
       - name: Extract Android project
-        run: unzip -q SimpleExamAndroid-Source.zip -d android-project
+        run: run: |
+  ZIP_FILE=$(find . -maxdepth 1 -type f -iname '*.zip' | head -n 1)
+  if [ -z "$ZIP_FILE" ]; then
+    echo "ZIP file not found!"
+    exit 1
+  fi
+  unzip -q "$ZIP_FILE" -d android-project
 
       - name: Build APK
         working-directory: android-project
